@@ -52,7 +52,7 @@ public class TokenContract {
         this.symbol = symbol;
     }
 
-    public String getSymbol() {
+    public String symbol() {
         return symbol;
     }
 
@@ -61,13 +61,51 @@ public class TokenContract {
         
     }
 
+    public int numOwners(){
+        return this.getContracts().size();
+    }
 
+    public double balanceOf(PublicKey key){
+        return this.getContracts().containsKey(key)? this.getContracts().get(key): 0d;
+    }
+
+    public void transfer(PublicKey keyObjective, double quantityTransfered){
+
+        if (quantityTransfered<=this.totalSupply()){
+
+            this.getContracts().replace(this.owner, this.getContracts().get(this.owner) - quantityTransfered );
+            this.getContracts().put(keyObjective, balanceOf(keyObjective) + quantityTransfered);
+
+        }
+
+    }
+
+    public void transfer(PublicKey keyUser, PublicKey keyObjective, double quantityTransfered){
+
+        if (quantityTransfered<=this.balanceOf(keyUser)){
+
+            this.getContracts().replace( keyUser, this.getContracts().get(keyUser) - quantityTransfered );
+            this.getContracts().put(keyObjective, balanceOf(keyObjective) + quantityTransfered);
+
+        }
+
+    }
+
+    public double totalTokensSold(){
+        return this.totalSupply - this.balanceOf(owner);
+    }
+
+    public void owners(){
+        this.getContracts().entrySet().stream()
+                                      .filter(entry -> entry.getKey()!=this.owner)
+                                      .forEach(entry -> System.out.println( "Owner PK: " + entry.getKey().hashCode() + "\nTokens: " + entry.getValue()));
+    }
 
     public String toString() {
         StringBuilder information = new StringBuilder();
 
         information.append("Token name: " + this.getName());
-        information.append("\nToken symbol: " + this.getSymbol());
+        information.append("\nToken symbol: " + this.symbol());
         information.append("\nTotal supply: " + this.totalSupply());
 
         return information.toString();
