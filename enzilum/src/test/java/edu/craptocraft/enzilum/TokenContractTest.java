@@ -8,11 +8,12 @@ import org.junit.Test;
 
 public class TokenContractTest {
     static TokenContract ricknillosTest;
+    static Address rick;
 
     @BeforeClass
     public static void ricknillosTestCreate() {
 
-        Address rick = new Address();
+        rick = new Address();
         rick.generateKeyPair();
         ricknillosTest = new TokenContract(rick);
     }
@@ -21,9 +22,6 @@ public class TokenContractTest {
     public void constructorTest() {
 
         assertNotNull(ricknillosTest);
-
-
-        
 
     }
 
@@ -36,12 +34,20 @@ public class TokenContractTest {
         ricknillosTest.setTokenPrice(5d);
         assertEquals("Ricknillos", ricknillosTest.getName());
         assertEquals("RNiLL", ricknillosTest.getSymbol());
-        assertEquals(100, ricknillosTest.totalSupply());
+        assertEquals(100, ricknillosTest.totalSupply(),0);
         assertEquals(5d, ricknillosTest.getTokenPrice(), 0);
+        assertEquals(rick.getPK().hashCode(), ricknillosTest.getOwner().hashCode());
 
-        String sampleText = "Token name: Ricknillos\nToken symbol: RNiLL\nTotal supply: 100";
-     
-        assertEquals(sampleText, ricknillosTest.toString()); 
-        
+        String sampleText = "Token name: Ricknillos\nToken symbol: RNiLL\nTotal supply: 100.0";
+
+        assertEquals(sampleText, ricknillosTest.toString());
+
+    }
+
+    @Test
+    public void addOwnerTest(){
+
+        ricknillosTest.addOwner(rick.getPK(), ricknillosTest.totalSupply());
+        assertEquals(1,ricknillosTest.getContracts().size());
     }
 }

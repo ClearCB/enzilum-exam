@@ -1,18 +1,27 @@
 package edu.craptocraft.enzilum;
 
+import java.security.PublicKey;
+import java.util.HashMap;
+import java.util.Map;
+
 public class TokenContract {
-    protected Address owner;
+    protected PublicKey owner;
     protected String name;
     protected String symbol;
-    protected int totalSupply;
-    protected double tokenPrice;
+    protected double totalSupply;
+    protected Double tokenPrice;
+    private Map<PublicKey, Double> contracts = new HashMap<PublicKey, Double>();
 
     TokenContract(Address owner) {
-        this.owner = owner;
+        this.owner = owner.getPK();
     }
 
-    public Address getOwner() {
-        return owner;
+    public PublicKey getOwner() {
+        return this.owner;
+    }
+
+    public Map<PublicKey, Double> getContracts(){
+        return this.contracts;
     }
 
     public String getName() {
@@ -23,12 +32,12 @@ public class TokenContract {
         this.name = name;
     }
 
-    public int totalSupply() {
+    public Double totalSupply() {
         return this.totalSupply;
     }
 
-    public void setTotalSupply(int supply) {
-        this.totalSupply = supply;
+    public void setTotalSupply(int i) {
+        this.totalSupply = i;
     }
 
     public double getTokenPrice() {
@@ -46,6 +55,13 @@ public class TokenContract {
     public String getSymbol() {
         return symbol;
     }
+
+    public void addOwner(PublicKey user, Double quantityAdquired){
+        this.getContracts().putIfAbsent(user, quantityAdquired);
+        
+    }
+
+
 
     public String toString() {
         StringBuilder information = new StringBuilder();

@@ -104,9 +104,9 @@ public class App {
         //  * @param cantidad de tokens que posee
         //  */
 
-        // ricknillos.addOwner(rick.getPK(), ricknillos.totalSupply());
+        ricknillos.addOwner(rick.getPK(), ricknillos.totalSupply());
         // // verifica que Rick no se actualiza una vez que ya existe en el balance
-        // ricknillos.addOwner(rick.getPK(), 500d);
+        ricknillos.addOwner(rick.getPK(), 500d);
         
         // /**
         //  * Consulta los balances
