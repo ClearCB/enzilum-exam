@@ -4,51 +4,61 @@ import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public class Address{
+public class Address {
     protected final KeyPair keyPair = GenSig.generateKeyPair();
     protected PrivateKey privateKey;
     protected PublicKey publicKey;
     private double balance = 0d;
     private String symbol = "EZI";
-    
 
-    protected PrivateKey getPrivateKey(){
+    protected PrivateKey getPrivateKey() {
         return this.privateKey;
     }
 
-    public PublicKey getPK(){
+    public PublicKey getPK() {
         return this.publicKey;
     }
 
-    private KeyPair getKeyPair(){
+    private KeyPair getKeyPair() {
         return this.keyPair;
     }
 
-    protected double getBalance(){
+    protected double getBalance() {
         return this.balance;
     }
 
-    protected String getSymbol(){
+    protected String getSymbol() {
         return this.symbol;
     }
 
-    private void setPrivateKey(PrivateKey privateKey){
+    private void setPrivateKey(PrivateKey privateKey) {
         this.privateKey = privateKey;
     }
 
-    private void setPublicKey(PublicKey publicKey){
+    private void setPublicKey(PublicKey publicKey) {
         this.publicKey = publicKey;
 
     }
 
-    protected void generateKeyPair(){
+    protected void generateKeyPair() {
 
         this.setPrivateKey(this.getKeyPair().getPrivate());
         this.setPublicKey(this.getKeyPair().getPublic());
 
     }
 
-    public String toString(){
+    protected void transferEZI(double ezis) {
+        this.balance += ezis;
+    }
+
+    protected void send(TokenContract contract, double enzis) {
+        if (this.getBalance() >= enzis) {
+            contract.payable(this.getPK(), enzis);
+            this.balance -= enzis;
+        }
+    }
+
+    public String toString() {
         StringBuilder information = new StringBuilder();
 
         information.append("Public key: " + this.getPK().hashCode());

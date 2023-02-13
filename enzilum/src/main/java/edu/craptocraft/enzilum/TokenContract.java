@@ -5,22 +5,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TokenContract {
+    protected Address ownerAddress;
     protected PublicKey owner;
     protected String name;
     protected String symbol;
     protected double totalSupply;
-    protected Double tokenPrice;
+    protected Double tokenPrice = 5d;
     private Map<PublicKey, Double> contracts = new HashMap<PublicKey, Double>();
 
     TokenContract(Address owner) {
+        this.ownerAddress = owner;
         this.owner = owner.getPK();
     }
 
-    public PublicKey getOwner() {
-        return this.owner;
+    public Address getOwner() {
+        return this.ownerAddress;
     }
 
-    public Map<PublicKey, Double> getContracts(){
+    public Map<PublicKey, Double> getContracts() {
         return this.contracts;
     }
 
@@ -56,50 +58,63 @@ public class TokenContract {
         return symbol;
     }
 
-    public void addOwner(PublicKey user, Double quantityAdquired){
+    public void addOwner(PublicKey user, Double quantityAdquired) {
         this.getContracts().putIfAbsent(user, quantityAdquired);
-        
+
     }
 
-    public int numOwners(){
+    public int numOwners() {
         return this.getContracts().size();
     }
 
-    public double balanceOf(PublicKey key){
-        return this.getContracts().containsKey(key)? this.getContracts().get(key): 0d;
+    public double balanceOf(PublicKey key) {
+        return this.getContracts().containsKey(key) ? this.getContracts().get(key) : 0d;
     }
 
-    public void transfer(PublicKey keyObjective, double quantityTransfered){
+    public void transfer(PublicKey keyObjective, double quantityTransfered) {
 
-        if (quantityTransfered<=this.totalSupply()){
+        if (quantityTransfered <= this.totalSupply()) {
 
-            this.getContracts().replace(this.owner, this.getContracts().get(this.owner) - quantityTransfered );
+            this.getContracts().replace(this.owner, this.getContracts().get(this.owner) - quantityTransfered);
             this.getContracts().put(keyObjective, balanceOf(keyObjective) + quantityTransfered);
 
         }
 
     }
 
-    public void transfer(PublicKey keyUser, PublicKey keyObjective, double quantityTransfered){
+    public void transfer(PublicKey keyUser, PublicKey keyObjective, double quantityTransfered) {
 
-        if (quantityTransfered<=this.balanceOf(keyUser)){
+        if (quantityTransfered <= this.balanceOf(keyUser)) {
 
-            this.getContracts().replace( keyUser, this.getContracts().get(keyUser) - quantityTransfered );
+            this.getContracts().replace(keyUser, this.getContracts().get(keyUser) - quantityTransfered);
             this.getContracts().put(keyObjective, balanceOf(keyObjective) + quantityTransfered);
 
         }
 
     }
 
-    public double totalTokensSold(){
+    public double totalTokensSold() {
         return this.totalSupply - this.balanceOf(owner);
     }
 
-    public void owners(){
+    public void owners() {
         this.getContracts().entrySet().stream()
-                                      .filter(entry -> entry.getKey()!=this.owner)
-                                      .forEach(entry -> System.out.println( "Owner PK: " + entry.getKey().hashCode() + "\nTokens: " + entry.getValue()));
+                .filter(entry -> entry.getKey() != this.owner)
+                .forEach(entry -> System.out
+                        .println("Owner PK: " + entry.getKey().hashCode() + "\nTokens: " + entry.getValue()));
     }
+
+    public void payable(PublicKey objectPublicKey, double enzis) {
+        double tokensToBuy = Math.floor(enzis / this.getTokenPrice()) ;
+
+        if (tokensToBuy > 0) {
+            this.transfer(this.owner, objectPublicKey, tokensToBuy);
+            this.getOwner().transferEZI(enzis);
+            
+        }
+    }
+
+
 
     public String toString() {
         StringBuilder information = new StringBuilder();
