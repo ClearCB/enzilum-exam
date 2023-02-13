@@ -24,7 +24,7 @@ public class AddressTest {
         assertEquals(0d, sampleAddress.getBalance(), 0);
         sampleAddress.generateKeyPair();
 
-        int hasCodeKey = sampleAddress.getPublicKey().hashCode();
+        int hasCodeKey = sampleAddress.getPK().hashCode();
         String sampleText = "Public key: " + hasCodeKey + "\nBalance: " + sampleAddress.getBalance() + " "
                 + sampleAddress.getSymbol();
         
@@ -37,7 +37,7 @@ public class AddressTest {
 
         sampleAddress.generateKeyPair();
 
-        assertNotNull(sampleAddress.getPublicKey());
+        assertNotNull(sampleAddress.getPK());
         assertNotNull(sampleAddress.getPrivateKey());
     }
 }

@@ -16,7 +16,7 @@ public class Address{
         return this.privateKey;
     }
 
-    public PublicKey getPublicKey(){
+    public PublicKey getPK(){
         return this.publicKey;
     }
 
@@ -51,7 +51,7 @@ public class Address{
     public String toString(){
         StringBuilder information = new StringBuilder();
 
-        information.append("Public key: " + this.getPublicKey().hashCode());
+        information.append("Public key: " + this.getPK().hashCode());
         information.append("\nBalance: " + this.getBalance() + " " + this.getSymbol());
 
         return information.toString();

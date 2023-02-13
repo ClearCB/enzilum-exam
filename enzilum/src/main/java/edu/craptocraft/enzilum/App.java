@@ -73,15 +73,15 @@ public class App {
         //  * @return el total de unidades de este token que actualmente existen.
         //  */
 
-        // TokenContract ricknillos = new TokenContract(rick);
-        // ricknillos.setName("Ricknillos");
-        // ricknillos.setSymbol("RNiLL");
-        // ricknillos.setTotalSupply(100);
-        // ricknillos.setTokenPrice(5d);
+        TokenContract ricknillos = new TokenContract(rick);
+        ricknillos.setName("Ricknillos");
+        ricknillos.setSymbol("RNiLL");
+        ricknillos.setTotalSupply(100);
+        ricknillos.setTokenPrice(5d);
 
-        // System.out.println("\n" + "Contrato de los Ricknillos" + "\n" + 
-        //                           "=========================="        );
-        // System.out.println(ricknillos.toString());
+        System.out.println("\n" + "Contrato de los Ricknillos" + "\n" + 
+                                  "=========================="        );
+        System.out.println(ricknillos.toString());
 
         // /**
         //  * El contrato TokenContract contiene una tabla de balances 
@@ -105,7 +105,7 @@ public class App {
         //  */
 
         // ricknillos.addOwner(rick.getPK(), ricknillos.totalSupply());
-        // verifica que Rick no se actualiza una vez que ya existe en el balance
+        // // verifica que Rick no se actualiza una vez que ya existe en el balance
         // ricknillos.addOwner(rick.getPK(), 500d);
         
         // /**
